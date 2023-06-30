@@ -37,7 +37,7 @@ class ExtractorWindow(QWidget,Ui_Extractor):
     
 
 作者：ChasonJiang
-Github：https://github.com/ChasonJiang/Extract-Face-Data
+Github：https://github.com/ChasonJiang/Face-Data-Extractor
 
 使用教程:
     Step1. 点击“打开图片”按钮, 选择图片。
