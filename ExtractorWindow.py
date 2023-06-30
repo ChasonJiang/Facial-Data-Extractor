@@ -30,9 +30,7 @@ class ExtractorWindow(QWidget,Ui_Extractor):
         self.log('''
 \t欢迎使用 Facial Data Extractor
 
-
     本软件旨在利用AI从人物图像中提取人脸数据，用于辅助Illusion系列游戏中的人物捏脸。
-
     目前，只支持 AI Shoujo 和 Honey Select2。
     
 作者：ChasonJiang
@@ -57,11 +55,14 @@ Github：https://github.com/ChasonJiang/Face-Data-Extractor
             return
         try:
             img_url,_=QFileDialog.getOpenFileUrl(self,"选择图片",QUrl(""),"Image(*.jpg;*.png)")
+            if img_url.url()=="":
+                return
             self.img_path=img_url.url().split("///")[1]
             self.log(f"已选择图片: {self.img_path}\n")
         except:
             self.log(f"图片选择失败！\n")
             self.extractBtn.setDisabled(True)
+            return
         
         self.extractBtn.setEnabled(True)
         # self.img_name = img_url.fileName().split(".")[0]
