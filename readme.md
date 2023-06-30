@@ -1,5 +1,5 @@
 # 介绍
-    欢迎使用 Face Data Extractor
+    欢迎使用 Facial Data Extractor
     本软件旨在利用AI从人物图像中提取人脸数据，用于辅助Illusion系列游戏中的人物捏脸。
     目前，只支持 AI Shoujo 和 Honey Select2。
 
