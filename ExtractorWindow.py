@@ -129,6 +129,7 @@ class Processor(QThread):
         finally:
             del extractor
         self.log_signal.emit(f"提取成功! 面部数据文件已保存在 [{self.save_path}]\n")
+        self.done_signal.emit()
         
         
 
