@@ -28,13 +28,13 @@ class ExtractorWindow(QWidget,Ui_Extractor):
         
     def hello(self,):
         self.log('''
-\t欢迎使用 Facial Data Extractor
+\t\t欢迎使用 Facial Data Extractor
 
-    本软件旨在利用AI从人物图像中提取人脸数据，用于辅助Illusion系列游戏中的人物捏脸。
+    本软件利用AI从人物图像中提取人脸数据，用于辅助Illusion系列游戏中的人物捏脸。
     目前，只支持 AI Shoujo 和 Honey Select2。
     
-作者：ChasonJiang
-Github：https://github.com/ChasonJiang/Face-Data-Extractor
+    作者：ChasonJiang
+    Github：https://github.com/ChasonJiang/Face-Data-Extractor
 
 使用教程:
     Step1. 点击“打开图片”按钮, 选择图片。
@@ -42,10 +42,17 @@ Github：https://github.com/ChasonJiang/Face-Data-Extractor
     Step3. 使用记事本或任意编辑器，打开提取完毕的json文件。
 
 注意事项：
-    1. 请保证待提取的人物图像五官清晰；不推荐人物面部尺寸与图像尺寸的比例小于四分之一（重要）
+    1. 请保证待提取的人物五官清晰；不推荐人物面部尺寸与图像尺寸的比例小于四分之一。
     2. 推荐提取3D风格的人物图像，真实世界的人物图像请自测。
     3. 现在阶段仅支持女性角色，男性角色自测。
----------------------------------------------------''')
+    4. 本软件并不能完美“复刻”人脸，仍需部分微调。
+    
+捐赠:
+    欢迎访问下方链接进行捐赠支持，你的支持是我最大的动力，谢谢！
+    捐赠1元: https://afdian.net/item/e197e2da17b711ee955252540025c377
+    捐赠5元: https://afdian.net/item/38d47f9017b811eea1b55254001e7c00
+    捐赠10元: https://afdian.net/item/5bde047017b811ee99085254001e7c00
+-----------------------------------------------------------------------------------''')
             
         
         

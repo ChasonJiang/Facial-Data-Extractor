@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Extractor(object):
     def setupUi(self, Extractor):
         Extractor.setObjectName("Extractor")
-        Extractor.resize(419, 480)
+        Extractor.resize(550, 620)
         self.verticalLayout = QtWidgets.QVBoxLayout(Extractor)
         self.verticalLayout.setObjectName("verticalLayout")
         self.groupBox = QtWidgets.QGroupBox(Extractor)
