@@ -19,7 +19,7 @@ class ExtractorWindow(QWidget,Ui_Extractor):
         self.img_path = None
         self.save_path = None
         self.extractor=None
-        self.version="1.1.0"
+        self.version="1.2.0"
         self.hello()
         self.chekversion_signal.connect(self.checkVersion)
         self.chekversion_signal.emit()
@@ -27,7 +27,7 @@ class ExtractorWindow(QWidget,Ui_Extractor):
         
         
     def checkVersion(self):
-        self.log("正在检查更新...")
+        self.log("正在检查更新...\n")
         vc=VersionChecker()
         vc.result_signal.connect(self.printVersionInfo)
         vc.finished.connect(lambda:vc.result_signal.disconnect())
@@ -36,15 +36,13 @@ class ExtractorWindow(QWidget,Ui_Extractor):
     def printVersionInfo(self,info:dict):
         if not info["State"]:
             self.log(info["msg"])
-            return
-        
-        if self.version == info["Version"]:
+        elif self.version == info["Version"]:
             self.log("已是最新版本！\n")
         else:
             self.log(f"检测到新版本: {info['Version']}\n")
             self.log(f"更新日志: \n{info['UpdateInfo']}")
-            self.log(f"访问以下链接下载更新：\n\tgithub: {info['Download']['Github']}\n\t百度网盘: {info['Download']['BaiduNetDisk']}\n")
-            self.log("---------------------------------------------------------------------------------\n")
+            self.log(f"访问以下链接下载更新：\nGithub: {info['Download']['Github']}\n百度网盘: {info['Download']['BaiduNetDisk']}\n")
+            self.log("--------------------------------------------------------------------------------\n")
         
         
     def loadExtractor(self,):
@@ -88,7 +86,7 @@ class ExtractorWindow(QWidget,Ui_Extractor):
     捐赠1元: https://afdian.net/item/e197e2da17b711ee955252540025c377
     捐赠5元: https://afdian.net/item/38d47f9017b811eea1b55254001e7c00
     捐赠10元: https://afdian.net/item/5bde047017b811ee99085254001e7c00
----------------------------------------------------------------------------------''')
+--------------------------------------------------------------------------------''')
             
         
         

@@ -1,8 +1,6 @@
 from PyQt5.QtCore import QThread,pyqtSignal
 import json
 import requests
-from requests.adapters import HTTPAdapter
-from urllib3.util.retry import Retry
 
 class VersionChecker(QThread):
     result_signal = pyqtSignal(dict)
@@ -20,7 +18,7 @@ class VersionChecker(QThread):
         if res.status_code!=200:
             self.result_signal.emit({"State":False,"msg":"网络异常，版本获取信息失败！\n"})
             return
-        versionInfo = res.json()
+        versionInfo = json.loads(res.text)
         versionInfo["State"]=True
         self.result_signal.emit(versionInfo)
         
