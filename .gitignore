@@ -3,3 +3,4 @@ dist/*
 test/*
 __pycache__/*
 visualization/*.json
+.vscode/*

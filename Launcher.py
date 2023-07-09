@@ -1,6 +1,6 @@
 import sys
 from PyQt5.QtWidgets import QApplication
-from ExtractorWindow import ExtractorWindow
+from src.ExtractorWindow import ExtractorWindow
 
 
 

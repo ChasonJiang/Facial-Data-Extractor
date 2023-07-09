@@ -3,8 +3,8 @@ import os
 import cv2
 import numpy as np
 import onnxruntime
-from FaceCrop import FaceCrop
-from face_data_utils import vectorParse
+from .FaceCrop import FaceCrop
+from .face_data_utils import vectorParse
 
 class Extractor(object):
     def __init__(self,):
