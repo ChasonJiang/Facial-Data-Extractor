@@ -1,13 +1,15 @@
+import json
 import os
 import traceback
 from .Extractor import Extractor
-from PyQt5.QtCore import QUrl
+from PyQt5.QtCore import QUrl,pyqtSignal
 from PyQt5.QtWidgets import QWidget,QFileDialog
 from .ExtractorWindow_UI import Ui_Extractor
 from .Processor import Processor 
-
+from .VersionChecker import VersionChecker
 
 class ExtractorWindow(QWidget,Ui_Extractor):
+    chekversion_signal = pyqtSignal()
     def __init__(self, parent: QWidget | None=None) -> None:
         super().__init__(parent)
         self.setupUi(self)
@@ -17,8 +19,33 @@ class ExtractorWindow(QWidget,Ui_Extractor):
         self.img_path = None
         self.save_path = None
         self.extractor=None
+        self.version="1.1.0"
         self.hello()
+        self.chekversion_signal.connect(self.checkVersion)
+        self.chekversion_signal.emit()
     #     self.loadExtractor()
+        
+        
+    def checkVersion(self):
+        self.log("正在检查更新...")
+        vc=VersionChecker()
+        vc.result_signal.connect(self.printVersionInfo)
+        vc.finished.connect(lambda:vc.result_signal.disconnect())
+        vc.start()
+        
+    def printVersionInfo(self,info:dict):
+        if not info["State"]:
+            self.log(info["msg"])
+            return
+        
+        if self.version == info["Version"]:
+            self.log("已是最新版本！\n")
+        else:
+            self.log(f"检测到新版本: {info['Version']}\n")
+            self.log(f"更新日志: \n{info['UpdateInfo']}")
+            self.log(f"访问以下链接下载更新：\n\tgithub: {info['Download']['Github']}\n\t百度网盘: {info['Download']['BaiduNetDisk']}\n")
+            self.log("-----------------------------------------------------------------------------------\n")
+        
         
     def loadExtractor(self,):
         if self.extractor is not None:
@@ -35,7 +62,7 @@ class ExtractorWindow(QWidget,Ui_Extractor):
         return True
     
     def hello(self,):
-        self.log('''
+        self.log(f'''
 \t\t欢迎使用 Facial Data Extractor
 
     本软件利用AI从人物图像中提取人脸数据，用于辅助Illusion系列游戏中的人物捏脸。
@@ -43,6 +70,7 @@ class ExtractorWindow(QWidget,Ui_Extractor):
     
     作者：ChasonJiang
     Github：https://github.com/ChasonJiang/Face-Data-Extractor
+    当前版本：{self.version}
 
 使用教程:
     Step1. 点击“打开图片”按钮, 选择图片。

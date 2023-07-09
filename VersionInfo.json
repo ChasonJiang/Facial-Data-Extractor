@@ -1,4 +1,8 @@
 {
     "Version":"1.2.0",
-    "UpdateInfo":"新增了人脸检测模型;\n新增了人脸自动裁切功能；\n改进了提取流程；\n优化了面部数据模型；新增了多文件版本，以改进软件启动速度。\n"
+    "UpdateInfo":"新增了人脸检测模型;\n新增了人脸自动裁切功能；\n改进了提取流程；\n优化了面部数据模型；新增了多文件版本，以改进软件启动速度。\n",
+    "Download":{
+        "Github":"https://github.com/ChasonJiang/Facial-Data-Extractor/releases/latest",
+        "BaiduNetDisk":"https://pan.baidu.com/s/1WSTzlX6bLuRahuxxDQih3A?pwd=fhuz"
+    }
 }
