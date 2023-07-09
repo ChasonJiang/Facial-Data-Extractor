@@ -8,11 +8,18 @@ class VersionChecker(QThread):
         headers={
             "Content-Type":"'text/html; charset=utf-8'"
         }
-        url = "https://raw.githubusercontent.com/ChasonJiang/Facial-Data-Extractor/main/VersionInfo.json"
+        # try:
+        #     url = "https://raw.githubusercontent.com/ChasonJiang/Facial-Data-Extractor/main/VersionInfo.json"
+        #     res = requests.get(url,headers=headers,verify=False)
+        # except:
+        #     self.result_signal.emit({"State":False,"msg":"网络异常，版本获取信息失败！\n"})
+        #     return
+        
         try:
+            url = "http://106.52.148.60:14406/facial_data_extrator/update"
             res = requests.get(url,headers=headers,verify=False)
         except:
-            self.result_signal.emit({"State":False,"msg":"请求失败，版本获取信息失败！\n"})
+            self.result_signal.emit({"State":False,"msg":"网络异常，版本获取信息失败！\n"})
             return
         
         if res.status_code!=200:
@@ -28,6 +35,6 @@ if __name__ =="__main__":
     headers={
         "Content-Type":"'text/html; charset=utf-8'"
     }
-    url = "https://raw.githubusercontent.com/ChasonJiang/Facial-Data-Extractor/main/VersionInfo.json"
+    url = "http://106.52.148.60:14406/facial_data_extrator/update"
     res = requests.get(url,headers=headers,verify=False)
-    print(res.json())
+    print(json.loads(res.text))

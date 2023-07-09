@@ -8,4 +8,5 @@ if __name__ =="__main__":
     app=QApplication(sys.argv)
     extractorWindow=ExtractorWindow()
     extractorWindow.show()
+    
     sys.exit(app.exec())
