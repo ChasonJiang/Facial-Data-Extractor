@@ -15,17 +15,24 @@ class ExtractorWindow(QWidget,Ui_Extractor):
         self.extractBtn.clicked.connect(self.process)
         self.img_path = None
         self.save_path = None
-        # self.extractor=None
+        self.extractor=None
         self.hello()
     #     self.loadExtractor()
         
-    # def loadExtractor(self,):
-    #     try:
-    #         self.extractor = Extractor()
-    #     except:
-    #         self.log("Extractor 加载失败！\n")
-    #     self.log("Extractor 加载成功！\n")
+    def loadExtractor(self,):
+        if self.extractor is not None:
+            return True
         
+        try:
+            self.extractor = Extractor()
+        except:
+            self.log(traceback.format_exc())
+            self.log("Extractor 加载失败！\n")
+            return False
+        
+        self.log("Extractor 加载成功！\n")
+        return True
+    
     def hello(self,):
         self.log('''
 \t\t欢迎使用 Facial Data Extractor
@@ -42,12 +49,10 @@ class ExtractorWindow(QWidget,Ui_Extractor):
     Step3. 使用记事本或任意编辑器，打开提取完毕的json文件。
 
 注意事项：
-    1. 请保证待提取的人物五官清晰；不推荐人物面部尺寸与图像尺寸的比例小于四分之一。
-    2. 推荐提取3D风格的人物图像，真实世界的人物图像请自测。
-    3. 现在阶段仅支持女性角色，男性角色自测。
-    4. 本软件并不能完美“复刻”人脸，仍需部分微调。
-    5. 脸型推荐使用“类型2”，其他脸型请自测。
-    6. 一般情况下，捏脸完成后需要微调一下，“整体”部分的“全脸宽度”  “眼”部分的“眼宽2”、“眼角Z轴”、“眼皮形状2”，“鼻子”部分视情况而定。
+    1. 脸型可以使用官方的三种脸型，“类型1、类型2、类型3”，其他脸型请自测。
+    2. 现在阶段仅支持女性角色，男性角色自测。
+    3. 现阶段AI并不能完美“复刻”人脸，仍需部分微调。
+    4. 一般情况下，捏脸完成后需要微调一下，“眼”部分的“眼宽2”、“眼角Z轴”、“眼皮形状2”，“鼻子”部分视情况而定。
     
 捐赠:
     欢迎访问下方链接进行捐赠支持，你的支持是我最大的动力，谢谢！
@@ -63,7 +68,7 @@ class ExtractorWindow(QWidget,Ui_Extractor):
         if not self.openBtn.isEnabled():
             return
         try:
-            img_url,_=QFileDialog.getOpenFileUrl(self,"选择图片",QUrl(""),"Image(*.jpg;*.png)")
+            img_url,_=QFileDialog.getOpenFileUrl(self,"选择图片",QUrl(""),"Image(*.jpg;*.jpeg;*.png)")
             if img_url.url()=="":
                 return
             self.img_path=img_url.url().split("///")[1]
@@ -87,7 +92,10 @@ class ExtractorWindow(QWidget,Ui_Extractor):
         img_name = img_path_splited[-1].split(".")[0]
         dir = os.sep.join(img_path_splited[:-1])
         self.save_path = os.path.join(dir,f"{img_name}.json")
-        processor=Processor(self.img_path,self.save_path)
+        if not self.loadExtractor():
+            return
+            
+        processor=Processor(self.extractor ,self.img_path,self.save_path)
         processor.done_signal.connect(self.process_done)
         processor.log_signal.connect(self.log)
         processor.finished.connect(lambda :processor.done_signal.disconnect())
@@ -110,33 +118,33 @@ class ExtractorWindow(QWidget,Ui_Extractor):
 class Processor(QThread):
     done_signal = pyqtSignal()
     log_signal = pyqtSignal(str)
-    def __init__(self, img_path:str,save_path:str):
+    def __init__(self, extractor:Extractor, img_path:str,save_path:str):
         super().__init__()
         self.img_path = img_path
         self.save_path = save_path
-        # self.extractor = extractor
+        self.extractor = extractor
         
     def run(self):
-        extractor = None
-        try:
-            extractor = Extractor()
-        except:
-            self.log_signal.emit("Extractor 加载失败！\n")
-            self.log_signal.emit(traceback.format_exc())
-            self.done_signal.emit()
-            return
+        # extractor = None
+        # try:
+        #     extractor = Extractor()
+        # except:
+        #     self.log_signal.emit("Extractor 加载失败！\n")
+        #     self.log_signal.emit(traceback.format_exc())
+        #     self.done_signal.emit()
+        #     return
             
-        self.log_signal.emit("Extractor 加载成功！\n")
+        # self.log_signal.emit("Extractor 加载成功！\n")
         self.log_signal.emit(f"正在提取，请稍等...\n")
         try:
-            extractor.extract(self.img_path,self.save_path)
+            self.extractor.extract(self.img_path,self.save_path)
         except Exception as e:
             self.log_signal.emit(f"提取失败!\n") 
             self.log_signal.emit(traceback.format_exc())
             self.done_signal.emit()
             return 
-        finally:
-            del extractor
+        # finally:
+        #     del extractor
         self.log_signal.emit(f"提取成功! 面部数据文件已保存在 [{self.save_path}]\n")
         self.done_signal.emit()
         
