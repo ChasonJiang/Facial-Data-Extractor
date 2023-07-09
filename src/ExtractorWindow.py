@@ -44,7 +44,7 @@ class ExtractorWindow(QWidget,Ui_Extractor):
             self.log(f"检测到新版本: {info['Version']}\n")
             self.log(f"更新日志: \n{info['UpdateInfo']}")
             self.log(f"访问以下链接下载更新：\n\tgithub: {info['Download']['Github']}\n\t百度网盘: {info['Download']['BaiduNetDisk']}\n")
-            self.log("-----------------------------------------------------------------------------------\n")
+            self.log("---------------------------------------------------------------------------------\n")
         
         
     def loadExtractor(self,):
@@ -88,7 +88,7 @@ class ExtractorWindow(QWidget,Ui_Extractor):
     捐赠1元: https://afdian.net/item/e197e2da17b711ee955252540025c377
     捐赠5元: https://afdian.net/item/38d47f9017b811eea1b55254001e7c00
     捐赠10元: https://afdian.net/item/5bde047017b811ee99085254001e7c00
------------------------------------------------------------------------------------''')
+---------------------------------------------------------------------------------''')
             
         
         
