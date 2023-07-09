@@ -4,4 +4,4 @@ test/*
 __pycache__/*
 visualization/*.json
 .vscode/*
-/**/__pycache__/*
+/**/__pycache__/*.pyc
