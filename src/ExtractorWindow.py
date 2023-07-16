@@ -36,7 +36,9 @@ class ExtractorWindow(QWidget,Ui_Extractor):
     def printVersionInfo(self,info:dict):
         if not info["State"]:
             self.log(info["msg"])
-        elif self.version == info["Version"]:
+        if not info["Notice"]in["",None]:
+            self.log(f"{info['Notice']}\n")
+        if self.version == info["Version"]:
             self.log("已是最新版本！\n")
         else:
             self.log(f"检测到新版本: {info['Version']}\n")
