@@ -1,6 +1,6 @@
 {
     "Version":"1.2.2",
-    "UpdateInfo":"1. 更新了面部数据提取模型；\n2. 改进了面部和眼部的特征相似度；3. 1.2.0版本及以下建议更新！",
+    "UpdateInfo":"1. 更新了面部数据提取模型；\n2. 改进了面部和眼部的特征相似度；\n3. 1.2.0版本及以下建议更新！\n4. 加入AI捏脸交流群，免费领取人物卡。链接：https://afdian.net/item/448380d223b311ee8c9752540025c377",
     "Download":{
         "Github":"https://github.com/ChasonJiang/Facial-Data-Extractor/releases/latest",
         "BaiduNetDisk":"https://pan.baidu.com/s/1WSTzlX6bLuRahuxxDQih3A?pwd=fhuz"
