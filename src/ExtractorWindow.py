@@ -19,7 +19,7 @@ class ExtractorWindow(QWidget,Ui_Extractor):
         self.img_path = None
         self.save_path = None
         self.extractor=None
-        self.version="1.2.1"
+        self.version="1.2.2"
         self.hello()
         self.chekversion_signal.connect(self.checkVersion)
         self.chekversion_signal.emit()
@@ -36,8 +36,6 @@ class ExtractorWindow(QWidget,Ui_Extractor):
     def printVersionInfo(self,info:dict):
         if not info["State"]:
             self.log(info["msg"])
-        if not info["Notice"]in["",None]:
-            self.log(f"{info['Notice']}\n")
         if self.version == info["Version"]:
             self.log("已是最新版本！\n")
         else:
@@ -45,7 +43,10 @@ class ExtractorWindow(QWidget,Ui_Extractor):
             self.log(f"更新日志: \n{info['UpdateInfo']}")
             self.log(f"访问以下链接下载更新：\nGithub: {info['Download']['Github']}\n百度网盘: {info['Download']['BaiduNetDisk']}\n")
             self.log("--------------------------------------------------------------------------------\n")
-        
+            
+        if not info["Notice"]in["",None]:
+            self.log(f"公告：\n{info['Notice']}\n")
+            self.log("--------------------------------------------------------------------------------\n")
         
     def loadExtractor(self,):
         if self.extractor is not None:
