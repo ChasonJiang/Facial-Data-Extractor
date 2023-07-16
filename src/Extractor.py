@@ -19,8 +19,8 @@ class Extractor(object):
         # to extract on "cpu" or "cuda"(gpu)
         # self.device = torch.device("cuda")
         # string.saveing path of model
-        self.face_model_load_path = "models/resnet50_face.onnx"
-        self.eyes_model_load_path = "models/resnet50_eyes.onnx"
+        self.face_model_load_path = "models/hrnet_face.onnx"
+        self.eyes_model_load_path = "models/hrnet_eyes.onnx"
         # self.model_load_path = "models/last_head_1_34_30_with_colorjitter.pth"
         # tuple. resize image to the shape. The aspect ratio should be 9:16
         # self.im_size = (252, 352)
@@ -60,7 +60,9 @@ class Extractor(object):
             raise Exception("检测到多张人脸，请更换提取图片！")
         
         face = self.transforms(faces[0])
-        eyes = face[:,:,35:70,...]
+        # eyes = face[:,:,35:70,...]
+        eyes = np.zeros_like(face)
+        eyes[:,:,35:70,...] = face[:,:,35:70,...]
         
         try:
             face_output:np.ndarray=self.face_model_ort.run(['out'], {'in': face})[0].squeeze(0)

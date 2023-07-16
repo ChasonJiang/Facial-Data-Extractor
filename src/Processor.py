@@ -26,7 +26,7 @@ class Processor(QThread):
         # self.log_signal.emit("Extractor 加载成功！\n")
         self.log_signal.emit(f"正在提取，请稍等...\n")
         try:
-            self.extractor.extract(self.img_path,self.save_path)
+            self.extractor.extract(self.img_path,self.save_path, weight=[0.2,0.8])
         except Exception as e:
             self.log_signal.emit(f"提取失败!\n") 
             self.log_signal.emit(traceback.format_exc())

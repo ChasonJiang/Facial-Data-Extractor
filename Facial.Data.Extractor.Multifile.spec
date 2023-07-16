@@ -9,8 +9,8 @@ a = Analysis(
     pathex=[],
     binaries=[],
     datas=[("C:\\Users\\14404\\.virtualenvs\\Extractor-PieuWTZ6\\Lib\\site-packages\\onnxruntime\\capi","onnxruntime\\capi"), 
-            ("src\\models\\resnet50_face.onnx","src\\models"),
-            ("src\\models\\resnet50_eyes.onnx","src\\models"),
+            ("src\\models\\hrnet_face.onnx","src\\models"),
+            ("src\\models\\hrnet_eyes.onnx","src\\models"),
             ("C:\\Users\\14404\\.virtualenvs\\Extractor-PieuWTZ6\\Lib\\site-packages\\\mtcnn_ort\\onet.onnx","mtcnn_ort"),
             ("C:\\Users\\14404\\.virtualenvs\\Extractor-PieuWTZ6\\Lib\\site-packages\\\mtcnn_ort\\pnet.onnx","mtcnn_ort"),
             ("C:\\Users\\14404\\.virtualenvs\\Extractor-PieuWTZ6\\Lib\\site-packages\\\mtcnn_ort\\rnet.onnx","mtcnn_ort")
