@@ -19,7 +19,7 @@ class ExtractorWindow(QWidget,Ui_Extractor):
         self.img_path = None
         self.save_path = None
         self.extractor=None
-        self.version="1.2.0"
+        self.version="1.2.1"
         self.hello()
         self.chekversion_signal.connect(self.checkVersion)
         self.chekversion_signal.emit()
