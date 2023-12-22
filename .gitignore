@@ -5,3 +5,4 @@ __pycache__/*
 visualization/*.json
 .vscode/*
 /**/__pycache__/*.pyc
+weights/*
