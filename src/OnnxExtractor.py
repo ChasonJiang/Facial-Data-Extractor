@@ -51,11 +51,12 @@ class OnnxExtractor(object):
                                                                ,providers=['TensorrtExecutionProvider', 'CUDAExecutionProvider', "ROCMExecutionProvider", "DmlExecutionProvider",'CPUExecutionProvider'])
         except:
             raise Exception("Nose模型加载失败！")
+        
         try:
             self.hrnet_ort = onnxruntime.InferenceSession(os.path.join(os.path.abspath(os.path.dirname(__file__)),self.hrnet_weight_path)
                                                                ,providers=['TensorrtExecutionProvider', 'CUDAExecutionProvider', "ROCMExecutionProvider", "DmlExecutionProvider",'CPUExecutionProvider'])
         except:
-            raise Exception("Nose模型加载失败！")
+            raise Exception("HRNet模型加载失败！")
         try:
             self.face_crop= FaceCrop()
         except:
