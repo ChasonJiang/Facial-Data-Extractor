@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 import onnxruntime
 from .FaceCrop import FaceCrop
-from .face_data_utils import vectorParse
+from .face_data_utils import vectorParse, vectorToChara
 
 class OnnxExtractor(object):
     def __init__(self,):
@@ -24,36 +24,38 @@ class OnnxExtractor(object):
         self.nose_weight_path = "weights/FDENet_nose.onnx"
         self.hrnet_weight_path = "weights/HRNet.onnx"
         self.im_size = (256,256)
+        # self.providers=['TensorrtExecutionProvider', 'CUDAExecutionProvider','CPUExecutionProvider']
+        self.providers=['CPUExecutionProvider']
 
 
     def init(self):
         try:
             self.face_model_ort = onnxruntime.InferenceSession(os.path.join(os.path.abspath(os.path.dirname(__file__)),self.face_weight_path)
-                                                               ,providers=['TensorrtExecutionProvider', 'CUDAExecutionProvider', "ROCMExecutionProvider", "DmlExecutionProvider",'CPUExecutionProvider'])
+                                                               ,providers=self.providers)
                                                                 #  ,providers=['DmlExecutionProvider', 'CUDAExecutionProvider'])
         except:
             raise Exception("Face模型加载失败！")
         
         try:
             self.eyes_model_ort = onnxruntime.InferenceSession(os.path.join(os.path.abspath(os.path.dirname(__file__)),self.eyes_weight_path)
-                                                               ,providers=['TensorrtExecutionProvider', 'CUDAExecutionProvider', "ROCMExecutionProvider", "DmlExecutionProvider",'CPUExecutionProvider'])
+                                                               ,providers=self.providers)
         except:
             raise Exception("Eyes模型加载失败！")
         try:
             self.mouth_model_ort = onnxruntime.InferenceSession(os.path.join(os.path.abspath(os.path.dirname(__file__)),self.mouth_weight_path)
-                                                               ,providers=['TensorrtExecutionProvider', 'CUDAExecutionProvider', "ROCMExecutionProvider", "DmlExecutionProvider",'CPUExecutionProvider'])
+                                                               ,providers=self.providers)
                                                                 #  ,providers=['DmlExecutionProvider', 'CUDAExecutionProvider'])
         except:
             raise Exception("Mouth模型加载失败！")
         
         try:
             self.nose_model_ort = onnxruntime.InferenceSession(os.path.join(os.path.abspath(os.path.dirname(__file__)),self.nose_weight_path)
-                                                               ,providers=['TensorrtExecutionProvider', 'CUDAExecutionProvider', "ROCMExecutionProvider", "DmlExecutionProvider",'CPUExecutionProvider'])
+                                                               ,providers=self.providers)
         except:
             raise Exception("Nose模型加载失败！")
         try:
             self.hrnet_ort = onnxruntime.InferenceSession(os.path.join(os.path.abspath(os.path.dirname(__file__)),self.hrnet_weight_path)
-                                                               ,providers=['TensorrtExecutionProvider', 'CUDAExecutionProvider', "ROCMExecutionProvider", "DmlExecutionProvider",'CPUExecutionProvider'])
+                                                               ,providers=self.providers)
         except:
             raise Exception("Nose模型加载失败！")
         try:
@@ -62,7 +64,7 @@ class OnnxExtractor(object):
             raise Exception("MTCNN加载失败！")
         
     
-    def extract(self,filename:str,savepath:str):
+    def extract(self,filename:str):
         img = self.readImage(filename)
         
         try:
@@ -94,17 +96,40 @@ class OnnxExtractor(object):
             # face_output[20:32]=face_output[20:32]*weight[0] +eyes_output*weight[1]
             output=np.concatenate([face_output,eyes_output,nose_output,mouth_output])
             output=self.decode_output(output)
-            data = vectorParse(output)
+            # data = vectorParse(output)
         except:
             raise Exception("面部数据提取失败！")
         
-        try:
-            with open(savepath,"w",encoding="utf-8") as f:
-                json.dump(data,f,ensure_ascii=False,indent=4)
-        except:
-            raise Exception("面部数据写入失败！")
-        
-        # return True
+        # try:
+        #     with open(savepath,"w",encoding="utf-8") as f:
+        #         json.dump(data,f,ensure_ascii=False,indent=4)
+        # except:
+        #     raise Exception("面部数据写入失败！")
+        return output, img
+    
+    def extract_and_save(self,filename:str,savedir:str,mode="both",template_chara_path:str=None):
+        assert mode in ["json","chara","both"]
+
+        vector, img = self.extract(filename)
+        filename=filename.replace("\\",os.sep)
+        filename=filename.replace("/",os.sep)
+        fname=filename.split(os.sep)[-1].split(".")[0]
+        if mode in ["json", "both"]:
+            try:
+                savepath = os.path.join(savedir,f"{fname}.json")
+                data = vectorParse(vector)
+                with open(savepath,"w",encoding="utf-8") as f:
+                    json.dump(data,f,ensure_ascii=False,indent=4)
+            except:
+                raise Exception("面部数据写入失败！")
+            
+        if mode in ["chara", "both"]:
+            savepath = os.path.join(savedir,f"{fname}_character.png")
+            if template_chara_path is None:
+                template_chara_path=os.path.join(os.path.abspath(os.path.dirname(__file__)),"assets","template.png")
+            vectorToChara(vector,savepath,template_chara_path,img)
+
+
     def decode_output(self,v:np.ndarray):
         return v*3.0-1.0
     

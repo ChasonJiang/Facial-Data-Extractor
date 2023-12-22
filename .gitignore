@@ -5,4 +5,5 @@ __pycache__/*
 visualization/*.json
 .vscode/*
 src/__pycache__
+src/chara_loader/__pycache__
 src/weights/*

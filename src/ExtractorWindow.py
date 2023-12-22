@@ -16,7 +16,9 @@ class ExtractorWindow(QWidget,Ui_Extractor):
         
         self.openBtn.clicked.connect(self.openImage)
         self.extractBtn.clicked.connect(self.process)
+        self.templateBtn.clicked.connect(self.openTemlateChara)
         self.img_path:list = []
+        self.template_chara_path:str = None
         # self.save_path = None
         self.extractor=None
         with open(os.path.join(os.path.abspath(os.path.dirname(__file__)),"version"),"r") as f:
@@ -119,26 +121,51 @@ class ExtractorWindow(QWidget,Ui_Extractor):
         # self.img_name = img_url.fileName().split(".")[0]
         # img_url=img_url.path()[1:]
         # img=cv2.imdecode(np.fromfile(img_path,dtype=np.uint8),-1)
-        
-    def process(self,):
-        if self.img_path is []:
-            self.log(f"请选择图片！\n")
+
+    def openTemlateChara(self,):
+        self.template_chara_path = None
+        if not self.templateBtn.isEnabled():
             return
-        save_path=[]
+        try:
+            img_url,_=QFileDialog.getOpenFileUrl(self,"选择人物卡",QUrl(""),"Image(*.png)")
+            if img_url.url()=="":
+                self.log(f"未选择模板人物卡, 将自动使用默认模板人物卡\n")
+                return
+            self.template_chara_path=img_url.url().split("///")[1]
+
+            self.log(f"已选择模板人物卡: {self.template_chara_path}\n")
+        except:
+            self.log(f"模板人物卡选择失败！\n")
+            self.template_chara_path = None
+            # self.extractBtn.setDisabled(True)
+            return
+        
+        # self.extractBtn.setEnabled(True)
+
+
+    def process(self,):
+        if self.img_path == []:
+            self.log(f"请选择图片！\n")
+            self.extractBtn.setDisabled(True)
+            return
+        
+        # save_path=[]
         # self.log(f"正在提取，请稍等...\n")
         self.openBtn.setDisabled(True)
-        for item in self.img_path:
-            img_path_splited = item.split(os.sep)
-            img_name = img_path_splited[-1].split(".")[0]
-            dir = os.sep.join(img_path_splited[:-1])
-            save_path.append(os.path.join(dir,f"{img_name}.json"))
+        self.templateBtn.setDisabled(True)
+        # for item in self.img_path:
+        #     img_path_splited = item.split(os.sep)
+        #     img_name = img_path_splited[-1].split(".")[0]
+        #     dir = os.sep.join(img_path_splited[:-1])
+        #     save_path.append(os.path.join(dir,f"{img_name}.json"))
 
         if not self.loadExtractor():
             return
             
-        processor=Processor(self.extractor ,self.img_path,save_path)
+        processor=Processor(self.extractor ,self.img_path, self.template_chara_path)
         processor.done_signal.connect(self.process_done)
         processor.log_signal.connect(self.log)
+        # processor.started.connect(lambda :self.extractBtn.setDisabled(True))
         processor.finished.connect(lambda :processor.done_signal.disconnect())
         processor.start()
         
@@ -147,7 +174,8 @@ class ExtractorWindow(QWidget,Ui_Extractor):
     def process_done(self,):
         self.extractBtn.setDisabled(True)
         self.openBtn.setEnabled(True)
-        
+        self.templateBtn.setEnabled(True)
+        self.template_chara_path = None
         
     def log(self, message:str):
         self.LogBox.moveCursor(self.LogBox.textCursor().End)

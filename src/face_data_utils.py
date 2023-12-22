@@ -1,5 +1,7 @@
 import numpy as np
+import cv2
 
+from .chara_loader import AiSyoujyoCharaData, KoikatuCharaData
 
 FACE_DATA_FIELD = [
     # 整体
@@ -95,7 +97,26 @@ def vectorParse(vector:np.ndarray)->dict:
             data[field]=rgba
             index+=4
         
-        
-
     return data
 
+def vectorToChara(vector:np.ndarray,save_path:str,template_chara_path:str,image:np.ndarray=None,chara_class:str="AIS"):
+    assert chara_class in ["AIS","KK"]
+    assert isinstance(vector,np.ndarray)
+    assert isinstance(image,np.ndarray) or image==np.ndarray
+    
+    if image is not None:
+        # ( h, w, 3)
+        assert image.ndim == 3
+        image=cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+        _,image=cv2.imencode(".png",image)
+        image = image.tobytes()
+
+    if chara_class=="AIS":
+        chara=AiSyoujyoCharaData.load(template_chara_path)
+    elif chara_class == "KK":
+        chara=KoikatuCharaData.load(template_chara_path)
+
+    chara.image = image
+    chara["Custom"]["face"]["shapeValueFace"][:54]=vector.astype(np.float32).tolist()
+
+    chara.save(save_path)
