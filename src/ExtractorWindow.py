@@ -82,8 +82,10 @@ class ExtractorWindow(QWidget,Ui_Extractor):
 
 使用教程:
     Step1. 点击“打开图片”按钮, 选择图片，可选择多张。
-    Step2. 点击“提取”按钮, 等待提取面部数据。
-    Step3. 使用记事本或任意编辑器，打开提取完毕的json文件。
+    Step2. [可选] 点击“选择人物卡模板”按钮, 选择人物卡模板；若不选择，则使用默认人物卡模板。提取的面部数据将直接作用于人物卡模板。
+    Step3. 点击“提取”按钮, 等待提取面部数据。
+    Step4. 在游戏中打开生成的*_character.png人物卡；
+            或者，使用记事本或任意编辑器，打开提取完毕的json文件手动捏脸。
 
 注意事项：
     1. 脸型可以使用官方的三种脸型，“类型1、类型2、类型3”，其他脸型请自测。
@@ -129,13 +131,13 @@ class ExtractorWindow(QWidget,Ui_Extractor):
         try:
             img_url,_=QFileDialog.getOpenFileUrl(self,"选择人物卡",QUrl(""),"Image(*.png)")
             if img_url.url()=="":
-                self.log(f"未选择模板人物卡, 将自动使用默认模板人物卡\n")
+                self.log(f"未选择人物卡模板, 将自动使用默认人物卡模板\n")
                 return
             self.template_chara_path=img_url.url().split("///")[1]
 
-            self.log(f"已选择模板人物卡: {self.template_chara_path}\n")
+            self.log(f"已选择人物卡模板: {self.template_chara_path}\n")
         except:
-            self.log(f"模板人物卡选择失败！\n")
+            self.log(f"人物卡模板选择失败！\n")
             self.template_chara_path = None
             # self.extractBtn.setDisabled(True)
             return

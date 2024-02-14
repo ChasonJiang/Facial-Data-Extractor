@@ -1,6 +1,6 @@
 {
-    "Version":"2.0.0",
-    "UpdateInfo":"0. 喜报！你关注的UP主终于更新软件啦！该版本强烈建议更新！\n1. 更新了自研的面部数据提取模型；\n2. 改善了面部轮廓、眼睛、鼻子、嘴唇的特征相似度；\n3. 可同时选择多张图片进行推理；\n4. 修复了无法连接服务器时的闪退问题。\n",
+    "Version":"2.1.0",
+    "UpdateInfo":"新增人物卡模板功能，提取的面部数据将直接生成人物卡，无需手动输入。",
     "Download":{
         "Github":"https://github.com/ChasonJiang/Facial-Data-Extractor/releases/latest",
         "BaiduNetDisk":"https://pan.baidu.com/s/1WSTzlX6bLuRahuxxDQih3A?pwd=fhuz"

@@ -90,6 +90,6 @@ class Ui_Extractor(object):
         Extractor.setWindowTitle(_translate("Extractor", "Extractor"))
         self.groupBox.setTitle(_translate("Extractor", "日志"))
         self.openBtn.setText(_translate("Extractor", "选择图片"))
-        self.templateBtn.setText(_translate("Extractor", "选择模板人物卡[可选]"))
+        self.templateBtn.setText(_translate("Extractor", "选择人物卡模板[可选]"))
         self.extractBtn.setText(_translate("Extractor", "提取"))
         
