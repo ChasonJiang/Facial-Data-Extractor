@@ -1,9 +1,9 @@
 {
-    "Version":"2.1.0",
-    "UpdateInfo":"新增人物卡模板功能，提取的面部数据将直接生成人物卡，无需手动输入。",
+    "Version":"3.0.0",
+    "UpdateInfo":"使用了新的深度学习方法和模型，提升了人脸相似度",
     "Download":{
         "Github":"https://github.com/ChasonJiang/Facial-Data-Extractor/releases/latest",
         "BaiduNetDisk":"https://pan.baidu.com/s/1WSTzlX6bLuRahuxxDQih3A?pwd=fhuz"
     },
-    "Notice":"加入官方AI捏脸交流群，免费领取人物卡。\n链接：\nhttps://afdian.net/item/448380d223b311ee8c9752540025c377"
+    "Notice":""
 }

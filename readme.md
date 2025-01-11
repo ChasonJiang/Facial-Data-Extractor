@@ -15,6 +15,12 @@
 3. 现在阶段仅支持女性角色，男性角色自测。
 4. 本软件并不能完美“复刻”人脸，仍需部分微调。
 
+# 捐赠
+欢迎访问下方链接进行捐赠支持，你的支持是我最大的动力，谢谢！
+- [捐赠1元](https://afdian.net/item/e197e2da17b711ee955252540025c377)
+- [捐赠5元](https://afdian.net/item/38d47f9017b811eea1b55254001e7c00)
+- [捐赠10元](https://afdian.net/item/5bde047017b811ee99085254001e7c00)
+
 # 展示
 
 ![avatar](./visualization/hlr.png)

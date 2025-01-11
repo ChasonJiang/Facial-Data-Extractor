@@ -87,7 +87,7 @@ class Ui_Extractor(object):
 
     def retranslateUi(self, Extractor):
         _translate = QtCore.QCoreApplication.translate
-        Extractor.setWindowTitle(_translate("Extractor", "Extractor"))
+        Extractor.setWindowTitle(_translate("Extractor", "Facial Data Extractor\t本软件完全免费，请勿用于商业用途"))
         self.groupBox.setTitle(_translate("Extractor", "日志"))
         self.openBtn.setText(_translate("Extractor", "选择图片"))
         self.templateBtn.setText(_translate("Extractor", "选择人物卡模板[可选]"))

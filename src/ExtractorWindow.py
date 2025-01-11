@@ -1,13 +1,17 @@
 import json
 import os
 import traceback
-from .OnnxExtractor import OnnxExtractor
+from .Extractor import Extractor
 from PyQt5.QtCore import QUrl,pyqtSignal
 from PyQt5.QtWidgets import QWidget,QFileDialog
 from .ExtractorWindow_UI import Ui_Extractor
 from .Processor import Processor 
 from .VersionChecker import VersionChecker
 import onnxruntime
+
+CURRENT_DIR = os.path.abspath(os.path.dirname(__file__))
+
+
 class ExtractorWindow(QWidget,Ui_Extractor):
     chekversion_signal = pyqtSignal()
     def __init__(self, parent: QWidget | None=None) -> None:
@@ -18,7 +22,7 @@ class ExtractorWindow(QWidget,Ui_Extractor):
         self.extractBtn.clicked.connect(self.process)
         self.templateBtn.clicked.connect(self.openTemlateChara)
         self.img_path:list = []
-        self.template_chara_path:str = None
+        self.template_chara_path:str = os.path.join(CURRENT_DIR,"assets","template.png")
         # self.save_path = None
         self.extractor=None
         with open(os.path.join(os.path.abspath(os.path.dirname(__file__)),"version"),"r") as f:
@@ -41,7 +45,7 @@ class ExtractorWindow(QWidget,Ui_Extractor):
             self.log(info["msg"])
             return
         
-        if self.version == info["Version"]:
+        if int(self.version.replace(".","")) >= int(info["Version"].replace(".","")):
             self.log("已是最新版本！\n")
         else:
             self.log(f"检测到新版本: {info['Version']}\n")
@@ -58,7 +62,7 @@ class ExtractorWindow(QWidget,Ui_Extractor):
             return True
         
         try:
-            self.extractor = OnnxExtractor()
+            self.extractor = Extractor()
         except:
             self.log(traceback.format_exc())
             self.log("Extractor 加载失败！\n")
@@ -74,8 +78,10 @@ class ExtractorWindow(QWidget,Ui_Extractor):
 
     本软件利用AI从人物图像中提取人脸数据，用于辅助Illusion系列游戏中的人物捏脸。
     目前，只支持 AI Shoujo 和 Honey Select2。
+                 
+    本软件完全免费，请勿用于商业用途，如果您喜欢本软件，欢迎关注作者的Github或者B站账号。
     
-    作者：ChasonJiang
+    作者：ChasonJiang（叉烧江）
     Github：https://github.com/ChasonJiang/Facial-Data-Extractor 
             https://github.com/ChasonJiang/FDE
     当前版本：{self.version}
@@ -85,18 +91,11 @@ class ExtractorWindow(QWidget,Ui_Extractor):
     Step2. [可选] 点击“选择人物卡模板”按钮, 选择人物卡模板；若不选择，则使用默认人物卡模板。提取的面部数据将直接作用于人物卡模板。
     Step3. 点击“提取”按钮, 等待提取面部数据。
     Step4. 在游戏中打开生成的*_character.png人物卡；
-            或者，使用记事本或任意编辑器，打开提取完毕的json文件手动捏脸。
 
 注意事项：
     1. 脸型可以使用官方的三种脸型，“类型1、类型2、类型3”，其他脸型请自测。
     2. 现在阶段仅支持女性角色，男性角色自测。
     3. 现阶段AI并不能完美“复刻”人脸，仍需部分微调。
-    
-捐赠:
-    欢迎访问下方链接进行捐赠支持，你的支持是我最大的动力，谢谢！
-    捐赠1元: https://afdian.net/item/e197e2da17b711ee955252540025c377
-    捐赠5元: https://afdian.net/item/38d47f9017b811eea1b55254001e7c00
-    捐赠10元: https://afdian.net/item/5bde047017b811ee99085254001e7c00
 --------------------------------------------------------------------------------''')
             
         
@@ -125,20 +124,22 @@ class ExtractorWindow(QWidget,Ui_Extractor):
         # img=cv2.imdecode(np.fromfile(img_path,dtype=np.uint8),-1)
 
     def openTemlateChara(self,):
-        self.template_chara_path = None
+        self.template_chara_path = os.path.join(CURRENT_DIR,"assets","template.png")
         if not self.templateBtn.isEnabled():
             return
         try:
             img_url,_=QFileDialog.getOpenFileUrl(self,"选择人物卡",QUrl(""),"Image(*.png)")
             if img_url.url()=="":
                 self.log(f"未选择人物卡模板, 将自动使用默认人物卡模板\n")
+                self.template_chara_path = os.path.join(CURRENT_DIR,"assets","template.png")
                 return
             self.template_chara_path=img_url.url().split("///")[1]
 
             self.log(f"已选择人物卡模板: {self.template_chara_path}\n")
         except:
             self.log(f"人物卡模板选择失败！\n")
-            self.template_chara_path = None
+            # self.template_chara_path = None
+            self.template_chara_path = os.path.join(CURRENT_DIR,"assets","template.png")
             # self.extractBtn.setDisabled(True)
             return
         
@@ -177,7 +178,7 @@ class ExtractorWindow(QWidget,Ui_Extractor):
         self.extractBtn.setDisabled(True)
         self.openBtn.setEnabled(True)
         self.templateBtn.setEnabled(True)
-        self.template_chara_path = None
+        self.template_chara_path = os.path.join(CURRENT_DIR,"assets","template.png")
         
     def log(self, message:str):
         self.LogBox.moveCursor(self.LogBox.textCursor().End)
