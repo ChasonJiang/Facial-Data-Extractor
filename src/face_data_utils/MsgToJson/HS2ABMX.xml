@@ -1,0 +1,575 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>HS2ABMX</name>
+    </assembly>
+    <members>
+        <member name="T:KKABMX.Core.KKABMX_Core">
+            <summary>
+            Entry point
+            </summary>
+        </member>
+        <member name="F:KKABMX.Core.KKABMX_Core.Version">
+            <summary> Version of this plugin </summary>
+        </member>
+        <member name="F:KKABMX.Core.KKABMX_Core.GUID">
+            <summary> GUID of this plugin </summary>
+        </member>
+        <member name="F:KKABMX.Core.KKABMX_Core.ExtDataGUID">
+            <summary> GUID used for ext data of this plugin </summary>
+        </member>
+        <member name="T:KKABMX.Core.CoordinateType">
+            <summary>
+            Placeholder for AIS to keep the API compatibility
+            </summary>
+        </member>
+        <member name="F:KKABMX.Core.CoordinateType.Unknown">
+            <summary>
+            Current coordinate in AIS
+            </summary>
+        </member>
+        <member name="T:KKABMX.Core.BoneController">
+            <summary>
+            Manages and applies bone modifiers for a single character.
+            </summary>
+        </member>
+        <member name="P:KKABMX.Core.BoneController.BoneSearcher">
+            <inheritdoc cref="T:KKABMX.Core.BoneFinder"/>
+        </member>
+        <member name="P:KKABMX.Core.BoneController.NeedsFullRefresh">
+            <summary>
+            Trigger a full bone modifier refresh on the next update
+            </summary>
+        </member>
+        <member name="P:KKABMX.Core.BoneController.NeedsBaselineUpdate">
+            <summary>
+            Trigger all modifiers to collect new baselines on the next update
+            </summary>
+        </member>
+        <member name="P:KKABMX.Core.BoneController.Modifiers">
+            <summary>
+            All bone modifiers assigned to this controller
+            </summary>
+        </member>
+        <member name="P:KKABMX.Core.BoneController.ModifierDict">
+            <summary>
+            Container of all bonemod data. Do not hold references to this, always get the current one!
+            </summary>
+        </member>
+        <member name="P:KKABMX.Core.BoneController.AdditionalBoneEffects">
+            <summary>
+            Additional effects that other plugins can apply to a character
+            </summary>
+        </member>
+        <member name="E:KKABMX.Core.BoneController.NewDataLoaded">
+            <summary>
+            Signals that new modifier data was loaded and custom Modifiers and AdditionalBoneEffects might need to be updated
+            </summary>
+        </member>
+        <member name="F:KKABMX.Core.BoneController.CurrentCoordinate">
+            <summary>
+            Placeholder to keep the API compatibility
+            </summary>
+        </member>
+        <member name="M:KKABMX.Core.BoneController.GetAllModifiers">
+            <summary>
+            Get all bone modifiers currently present (some might be empty).
+            </summary>
+        </member>
+        <member name="M:KKABMX.Core.BoneController.GetAllModifiers(KKABMX.Core.BoneLocation)">
+            <summary>
+            Get all bone modifiers currently present for a given location (some might be empty).
+            If the location doesn't have any modifiers or doesn't exist, 0 items are returned.
+            </summary>
+        </member>
+        <member name="M:KKABMX.Core.BoneController.AddModifier(KKABMX.Core.BoneModifier)">
+            <summary>
+            Add a new bone modifier. Make sure that it doesn't exist yet!
+            </summary>
+        </member>
+        <member name="M:KKABMX.Core.BoneController.AddBoneEffect(KKABMX.Core.BoneEffect)">
+            <summary>
+            Add specified bone effect and update state to make it work. If the effect is already added then this does nothing.
+            </summary>
+        </member>
+        <member name="M:KKABMX.Core.BoneController.RemoveBoneEffect(KKABMX.Core.BoneEffect)">
+            <summary>
+            Remove specified bone effect. If effect wasn't added, this does nothing.
+            </summary>
+        </member>
+        <member name="M:KKABMX.Core.BoneController.GetModifier(System.String)">
+            <inheritdoc cref="M:KKABMX.Core.BoneController.GetModifier(System.String,KKABMX.Core.BoneLocation)"/>
+        </member>
+        <member name="M:KKABMX.Core.BoneController.GetModifier(System.String,KKABMX.Core.BoneLocation)">
+            <summary>
+            Get a modifier if it exists.
+            </summary>
+            <param name="boneName">Name of the bone that the modifier targets</param>
+            <param name="location">Where the bone is located</param>
+        </member>
+        <member name="M:KKABMX.Core.BoneController.GetOrAddModifier(System.String,KKABMX.Core.BoneLocation)">
+            <summary>
+            Get a modifier. If it doesn't exist, create a new empty one.
+            </summary>
+            <param name="boneName">Name of the bone that the modifier targets</param>
+            <param name="location">Where the bone is located</param>
+        </member>
+        <member name="M:KKABMX.Core.BoneController.RemoveModifier(KKABMX.Core.BoneModifier)">
+            <summary>
+            Removes the specified modifier and resets the affected bone to its original state
+            </summary>
+            <param name="modifier">Modifier added to this controller</param>
+        </member>
+        <member name="M:KKABMX.Core.BoneController.GetAllPossibleBoneNames">
+            <summary>
+            Get all transform names under the character object that could be bones (excludes accessories).
+            Warning: Expensive to run, ToList the result and cache it if you want to reuse it!
+            </summary>
+        </member>
+        <member name="M:KKABMX.Core.BoneController.GetAllPossibleBoneNames(UnityEngine.GameObject)">
+            <summary>
+            Get all transform names under the rootObject that could be bones (could be from BodyTop or objAccessory, BodyTop excludes accessories).
+            Warning: Expensive to run, ToList the result and cache it if you want to reuse it!
+            </summary>
+        </member>
+        <member name="M:KKABMX.Core.BoneController.OnCardBeingSaved(KKAPI.GameMode)">
+            <inheritdoc />
+        </member>
+        <member name="M:KKABMX.Core.BoneController.OnReload(KKAPI.GameMode,System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:KKABMX.Core.BoneController.Start">
+            <inheritdoc />
+        </member>
+        <member name="M:KKABMX.Core.BoneController.ApplyEffectsToLocation(KKABMX.Core.BoneLocation,System.Collections.Generic.List{KKABMX.Core.BoneModifier})">
+            <summary>
+            Apply all modifiers to the specified location. Location set on modifiers is ignored.
+            This is patched by C2A, needs to stay unless both plugins are updated.
+            </summary>
+        </member>
+        <member name="M:KKABMX.Core.BoneController.UpdateBaseline">
+            <summary>
+            Partial baseline update.
+            Needed mainly to prevent vanilla sliders in chara maker from being overriden by bone modifiers.
+            </summary>
+        </member>
+        <member name="M:KKABMX.Core.BoneController.HandleDynamicBoneModifiers(KKABMX.Core.BoneModifier)">
+            <summary>
+            Force reset baseline of bones affected by dynamicbones
+            to avoid overwriting dynamicbone animations
+            </summary>
+        </member>
+        <member name="T:KKABMX.Core.BoneController.BoneLocationComparer">
+            <summary>
+            Same as the default comparer, but does not allocate.
+            </summary>
+        </member>
+        <member name="T:KKABMX.Core.BoneFinder">
+            <summary>
+            Helper class for quickly getting a list of bones for specific parts of a character.
+            Unlike FindAssist it handles accessories and parented characters (in Studio) by excluding them from found bones.
+            </summary>
+        </member>
+        <member name="M:KKABMX.Core.BoneFinder.CreateBoneDic(UnityEngine.GameObject)">
+            <summary>
+            Create a dictionary of all bones and their names under the specified root object (itself included).
+            Accessories and other characters are not included (the search stops at them).
+            </summary>
+        </member>
+        <member name="M:KKABMX.Core.BoneFinder.FindBone(System.String,KKABMX.Core.BoneLocation@)">
+            <summary>
+            Find bone of a given name in the specified location.
+            If location is Unknown, all locations will be searched and location value will be replaced with location where it was found (if it was found).
+            </summary>
+            <param name="name">Name of the bone to search for</param>
+            <param name="location">Where to search for the bone. If Unknown, the value is replaced by the location the bone was found in if the bone was found.</param>
+        </member>
+        <member name="M:KKABMX.Core.BoneFinder.GetAllBones(KKABMX.Core.BoneLocation)">
+            <summary>
+            Get a dictionary of all bones and their names in a given location.
+            </summary>
+        </member>
+        <member name="M:KKABMX.Core.BoneFinder.#ctor(AIChara.ChaControl)">
+            <summary>
+            Create a new instance for a given character.
+            </summary>
+        </member>
+        <member name="M:KKABMX.Core.BoneFinder.AssignBone(KKABMX.Core.BoneModifier)">
+            <summary>
+            Try to find and assign target bone to a bone modifier. Returns true if successful.
+            </summary>
+        </member>
+        <member name="M:KKABMX.Core.BoneFinder.ClearCache(System.Boolean)">
+            <summary>
+            Force GameObject refresh next time a bone is looked up.
+            </summary>
+        </member>
+        <member name="T:KKABMX.Core.BoneEffect">
+            <summary>
+            Base for custom bone modifiers that allow other mods to use ABMX's features.
+            </summary>
+        </member>
+        <member name="M:KKABMX.Core.BoneEffect.GetAffectedBones(KKABMX.Core.BoneController)">
+            <summary>
+            Should return names of all bones that can be affected by this effect.
+            It's recommended to store the bone list in a static array and simply return that array.
+            This may be called on every frame for each character, should be fast.
+            </summary>
+            <param name="origin">Bone controller that this effect applies to</param>
+        </member>
+        <member name="M:KKABMX.Core.BoneEffect.GetEffect(System.String,KKABMX.Core.BoneController,KKABMX.Core.CoordinateType)">
+            <summary>
+            Get effect for the specified bone. If no effect should be applied, null should be returned.
+            The modifier will be multiplied with other modifiers used on this bone, so 1 is the no-change value.
+            This is called on every frame for each character, should be fast.
+            </summary>
+            <param name="bone">Bone to get effect for</param>
+            <param name="origin">Bone controller that this effect applies to</param>
+            <param name="coordinate">Coordinate the effect should apply to</param>
+        </member>
+        <member name="T:KKABMX.Core.BoneLocation">
+            <summary>
+            Specifies what part of a character the bone is a part of.
+            Needed to differentiate multiple identical accessories and accessories with bone names identical to main body.
+            </summary>
+        </member>
+        <member name="F:KKABMX.Core.BoneLocation.Unknown">
+            <summary>
+            Location unknown, likely because data from an old ABMX version was loaded.
+            Includes everything under BodyTop, including accessories.
+            This will be replaced with the correct bone location if the bone is found by the controller.
+            </summary>
+        </member>
+        <member name="F:KKABMX.Core.BoneLocation.BodyTop">
+            <summary>
+            The character's body, including the head but excluding accessories.
+            </summary>
+        </member>
+        <member name="F:KKABMX.Core.BoneLocation.Accessory">
+            <summary>
+            Enum values beyond this point all refer to accessories.
+            When MoreAccessories is used, values above Accessory19 are possible.
+            </summary>
+        </member>
+        <member name="T:KKABMX.Core.BoneModifier">
+            <summary>
+            Class that handles applying modifiers to bones
+            </summary>
+        </member>
+        <member name="M:KKABMX.Core.BoneModifier.#ctor(System.String)">
+            <summary> Use other overloads instead </summary>
+        </member>
+        <member name="M:KKABMX.Core.BoneModifier.#ctor(System.String,KKABMX.Core.BoneModifierData[])">
+            <summary> Use other overloads instead </summary>
+        </member>
+        <member name="M:KKABMX.Core.BoneModifier.#ctor(System.String,KKABMX.Core.BoneLocation)">
+            <summary>
+            Create empty modifier that is not coordinate specific
+            </summary>
+            <param name="boneName">Name of the bone transform to affect</param>
+            <param name="boneLocation">Where the bone transform to affect is located</param>
+        </member>
+        <member name="M:KKABMX.Core.BoneModifier.#ctor(System.String,KKABMX.Core.BoneLocation,KKABMX.Core.BoneModifierData[])">
+            <summary>
+            Create empty modifier
+            </summary>
+            <param name="boneName">Name of the bone transform to affect</param>
+            <param name="boneLocation">Where the bone transform to affect is located</param>
+            <param name="coordinateModifiers">
+            Needs to be either 1 long to apply to all coordinates or 7 to apply to specific
+            coords
+            </param>
+        </member>
+        <member name="M:KKABMX.Core.BoneModifier.#ctor(System.String,KKABMX.Core.BoneModifierData[],KKABMX.Core.BoneLocation)">
+            <summary> Use other overloads instead </summary>
+        </member>
+        <member name="P:KKABMX.Core.BoneModifier.BoneName">
+            <summary>
+            Name of the targetted bone
+            </summary>
+        </member>
+        <member name="P:KKABMX.Core.BoneModifier.BoneTransform">
+            <summary>
+            Transform of the targetted bone
+            </summary>
+        </member>
+        <member name="P:KKABMX.Core.BoneModifier.CoordinateModifiers">
+            <summary>
+            Actual modifier values, split for different coordinates if required
+            </summary>
+        </member>
+        <member name="P:KKABMX.Core.BoneModifier.BoneLocation">
+            <summary>
+            What part of the character the bone is on.
+            </summary>
+        </member>
+        <member name="M:KKABMX.Core.BoneModifier.Apply(KKABMX.Core.CoordinateType,System.Collections.Generic.IList{KKABMX.Core.BoneModifierData})">
+            <summary>
+            Apply the modifiers
+            </summary>
+        </member>
+        <member name="M:KKABMX.Core.BoneModifier.CollectBaseline">
+            <summary>
+            Set current values of the bone as its default/base values.
+            Warning: Do not call after the modifier was applied, it has to be reset first!
+            </summary>
+        </member>
+        <member name="M:KKABMX.Core.BoneModifier.GetModifier(KKABMX.Core.CoordinateType)">
+            <summary>
+            Get data for a specific coordinate
+            </summary>
+        </member>
+        <member name="M:KKABMX.Core.BoneModifier.IsEmpty">
+            <summary>
+            Check if this modifier has any data in it that can be applied
+            </summary>
+        </member>
+        <member name="M:KKABMX.Core.BoneModifier.IsCoordinateSpecific">
+            <summary>
+            Check if this modifier has unique values for each coordinate, or one set of values for all coordinates
+            </summary>
+        </member>
+        <member name="M:KKABMX.Core.BoneModifier.MakeCoordinateSpecific(System.Int32)">
+            <summary>
+            If this modifier is not coordinate specific, make it coordinate specific (one set of values for each outfit)
+            </summary>
+        </member>
+        <member name="M:KKABMX.Core.BoneModifier.MakeNonCoordinateSpecific">
+            <summary>
+            If this modifier is coordinate specific, make it not coordinate specific (one set of values for all outfits)
+            </summary>
+        </member>
+        <member name="M:KKABMX.Core.BoneModifier.Reset">
+            <summary>
+            Resets bone transform values to their original values
+            </summary>
+        </member>
+        <member name="M:KKABMX.Core.BoneModifier.Clone">
+            <summary>
+            Create a copy of this modifier
+            </summary>
+        </member>
+        <member name="M:KKABMX.Core.BoneModifier.CanApplyLength">
+            <summary>
+            Check if length can be applied in current state
+            </summary>
+        </member>
+        <member name="M:KKABMX.Core.BoneModifier.ClearBaseline">
+            <summary>
+            Clear the stored baseline, if any
+            </summary>
+        </member>
+        <member name="T:KKABMX.Core.BoneModifierData">
+            <summary>
+            Values applied to a bone to modify its scale, position and/or location.
+            </summary>
+        </member>
+        <member name="P:KKABMX.Core.BoneModifierData.Default">
+            <summary>
+            Empty data, same as creating a new instance.
+            </summary>
+        </member>
+        <member name="F:KKABMX.Core.BoneModifierData.ScaleModifier">
+            <summary>
+            Added to localScale
+            </summary>
+        </member>
+        <member name="F:KKABMX.Core.BoneModifierData.LengthModifier">
+            <summary>
+            Scales transform's position from the parent transform
+            </summary>
+        </member>
+        <member name="F:KKABMX.Core.BoneModifierData.PositionModifier">
+            <summary>
+            Added to localPosition
+            </summary>
+        </member>
+        <member name="F:KKABMX.Core.BoneModifierData.RotationModifier">
+            <summary>
+            Added to localRotation
+            </summary>
+        </member>
+        <member name="M:KKABMX.Core.BoneModifierData.#ctor">
+            <summary>
+            Create an empty modifier
+            </summary>
+        </member>
+        <member name="M:KKABMX.Core.BoneModifierData.#ctor(UnityEngine.Vector3,System.Single)">
+            <summary>
+            Create a legacy modifier
+            </summary>
+        </member>
+        <member name="M:KKABMX.Core.BoneModifierData.#ctor(UnityEngine.Vector3,System.Single,UnityEngine.Vector3,UnityEngine.Vector3)">
+            <summary>
+            Create a new modifier
+            </summary>
+        </member>
+        <member name="M:KKABMX.Core.BoneModifierData.Clone">
+            <summary>
+            Create a copy of this modifier
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:KKABMX.Core.BoneModifierData.HasLength">
+            <summary>
+            Length is not empty
+            </summary>
+        </member>
+        <member name="M:KKABMX.Core.BoneModifierData.HasScale">
+            <summary>
+            Scale is not empty
+            </summary>
+        </member>
+        <member name="M:KKABMX.Core.BoneModifierData.HasPosition">
+            <summary>
+            Position is not empty
+            </summary>
+        </member>
+        <member name="M:KKABMX.Core.BoneModifierData.HasRotation">
+            <summary>
+            Rotation is not empty
+            </summary>
+        </member>
+        <member name="M:KKABMX.Core.BoneModifierData.IsEmpty">
+            <summary>
+            True if all data in this modifier is empty/default
+            </summary>
+        </member>
+        <member name="M:KKABMX.Core.BoneModifierData.Clear">
+            <summary>
+            Empty all data in this modifier
+            </summary>
+        </member>
+        <member name="M:KKABMX.Core.BoneModifierData.CopyTo(KKABMX.Core.BoneModifierData)">
+            <summary>
+            Copy data from this modifier to the other modifier
+            </summary>
+        </member>
+        <member name="T:KKABMX.GUI.InterfaceData">
+            <summary>
+            Data needed for creating yellow sliders and custom maker categories
+            </summary>
+        </member>
+        <member name="T:KKABMX.GUI.BoneMeta">
+            <summary>
+            Data needed to create a yellow UI slider
+            </summary>
+        </member>
+        <member name="T:KKABMX.GUI.KKABMX_AdvancedGUI">
+            <summary>
+            Advanced bonemod interface, can be used to access all possible sliders and put in unlimited value ranges
+            </summary>
+        </member>
+        <member name="P:KKABMX.GUI.KKABMX_AdvancedGUI.SearchFieldValue">
+            <summary>
+            String to search for in bone names
+            </summary>
+        </member>
+        <member name="F:KKABMX.GUI.KKABMX_AdvancedGUI.OnEnabledChanged">
+            <summary>
+            Triggered whenever the UI is hidden or opened. New enabled state is given as parameter.
+            </summary>
+        </member>
+        <member name="P:KKABMX.GUI.KKABMX_AdvancedGUI.Enabled">
+            <summary>
+            Whether the UI is hidden or opened.
+            </summary>
+        </member>
+        <member name="P:KKABMX.GUI.KKABMX_AdvancedGUI.BoneListMouseHoversOver">
+            <summary>
+            Specifies which (if any) bone in the bone list the mouse cursor is currently hovering over.
+            </summary>
+        </member>
+        <member name="E:KKABMX.GUI.KKABMX_AdvancedGUI.OnBoneListMouseHover">
+            <summary>
+            Fired when user hovers mouse cursor over items in the bone list, and the hovered-over item changes.
+            The Transform is the bone being hovered over. It can be null to signify not hovering over any bone.
+            </summary>
+        </member>
+        <member name="M:KKABMX.GUI.KKABMX_AdvancedGUI.Enable(KKABMX.Core.BoneController)">
+            <summary>
+            Show the UI with a character already selected. If controller is null, the UI is disabled instead.
+            </summary>
+        </member>
+        <member name="M:KKABMX.GUI.KKABMX_AdvancedGUI.Disable">
+            <summary>
+            Hide the UI if it's shown.
+            </summary>
+        </member>
+        <member name="M:KKABMX.GUI.KKABMX_AdvancedGUI.GetDefaultWindowRect(UnityEngine.Rect)">
+            <inheritdoc />
+        </member>
+        <member name="M:KKABMX.GUI.KKABMX_AdvancedGUI.OnEnable">
+            <inheritdoc />
+        </member>
+        <member name="M:KKABMX.GUI.KKABMX_AdvancedGUI.OnGUI">
+            <inheritdoc />
+        </member>
+        <member name="M:KKABMX.GUI.KKABMX_AdvancedGUI.DrawContents">
+            <inheritdoc />
+        </member>
+        <member name="T:KKABMX.GUI.SerializedBoneModifier">
+            <summary>
+            Only used for converting to xml to output user-readable data into clipboard/file.
+            </summary>
+        </member>
+        <member name="T:KKABMX.GUI.KKABMX_GUI">
+            <summary>
+            Manages UI integration with maker
+            </summary>
+        </member>
+        <member name="P:KKABMX.GUI.KKABMX_GUI.ShowSliders">
+            <summary>
+            Add yellow sliders to maker, including new categories.
+            If false, only advanced mode can be used to change slider values.
+            Has effect only after maker restart.
+            </summary>
+        </member>
+        <member name="P:KKABMX.GUI.KKABMX_GUI.XyzMode">
+            <summary>
+            If true, split sliders into separate XYZ sliders, otherwise only show one All slider
+            </summary>
+        </member>
+        <member name="P:KKABMX.GUI.KKABMX_GUI.RaiseLimits">
+            <summary>
+            Increase value limits of yellow sliders
+            </summary>
+        </member>
+        <member name="P:KKABMX.GUI.KKABMX_GUI.ResetToLastLoaded">
+            <summary>
+            If true, the reset button uses the value from the last load, not the empty value
+            </summary>
+        </member>
+        <member name="P:KKABMX.GUI.KKABMX_GUI.SpawnedSliders">
+            <summary>
+            List of all yellow sliders created so far. Mainly for use by the SliderHighlight plugin.
+            null if outside of maker.
+            </summary>
+        </member>
+        <member name="T:KKABMX.GUI.KKABMX_GUI.SliderData">
+            <summary>
+            Metadata of a created yellow slider
+            </summary>
+        </member>
+        <member name="M:KKABMX.GUI.KKABMX_GUI.SliderData.#ctor(System.Func{System.Collections.Generic.IEnumerable{System.String}},KKABMX.Core.BoneLocation,KKAPI.Maker.UI.MakerSlider[])">
+            <summary>
+            Make a new instance
+            </summary>
+        </member>
+        <member name="P:KKABMX.GUI.KKABMX_GUI.SliderData.Sliders">
+            <summary>
+            All sliders in this slider group (X, Y, Z and All, possibly more for fingers)
+            </summary>
+        </member>
+        <member name="P:KKABMX.GUI.KKABMX_GUI.SliderData.GetAffectedBones">
+            <summary>
+            A func that finds names of all bones affected by this slider group
+            </summary>
+        </member>
+        <member name="P:KKABMX.GUI.KKABMX_GUI.SliderData.BoneLocation">
+            <summary>
+            Location where the affected bones are located
+            </summary>
+        </member>
+    </members>
+</doc>

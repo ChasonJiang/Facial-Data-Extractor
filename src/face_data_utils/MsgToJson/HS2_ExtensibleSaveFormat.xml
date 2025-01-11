@@ -1,0 +1,246 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>HS2_ExtensibleSaveFormat</name>
+    </assembly>
+    <members>
+        <member name="T:ExtensibleSaveFormat.ExtendedSave">
+            <summary>
+            A set of tools for reading and writing extra data to card and scene files.
+            </summary>
+        </member>
+        <member name="F:ExtensibleSaveFormat.ExtendedSave.GUID">
+            <summary> Plugin GUID </summary>
+        </member>
+        <member name="F:ExtensibleSaveFormat.ExtendedSave.PluginName">
+            <summary> Plugin name </summary>
+        </member>
+        <member name="F:ExtensibleSaveFormat.ExtendedSave.Version">
+            <summary> Plugin version </summary>
+        </member>
+        <member name="F:ExtensibleSaveFormat.ExtendedSave.Marker">
+            <summary> Marker that indicates the extended save region on cards </summary>
+        </member>
+        <member name="F:ExtensibleSaveFormat.ExtendedSave.DataVersion">
+            <summary> Version of the extended save data on cards </summary>
+        </member>
+        <member name="F:ExtensibleSaveFormat.ExtendedSave.LoadEventsEnabled">
+            <summary>
+            Whether extended data load events should be triggered. Temporarily disable it when extended data will never be used, for example loading lists of cards.
+            </summary>
+        </member>
+        <member name="F:ExtensibleSaveFormat.ExtendedSave.ExtendedSaveDataPropertyName">
+            <summary>
+            Name of the property injected in to classes by the patcher
+            </summary>
+        </member>
+        <member name="M:ExtensibleSaveFormat.ExtendedSave.GetAllExtendedData(AIChara.ChaFile)">
+            <summary>
+            Get a dictionary of ID, PluginData containing all extended data for a ChaFile
+            </summary>
+            <param name="file">ChaFile for which to get extended data</param>
+            <returns>Dictionary of ID, PluginData</returns>
+        </member>
+        <member name="M:ExtensibleSaveFormat.ExtendedSave.GetExtendedDataById(AIChara.ChaFile,System.String)">
+            <summary>
+            Get PluginData for a ChaFile for the specified extended save data ID
+            </summary>
+            <param name="file">ChaFile for which to get extended data</param>
+            <param name="id">ID of the data saved to the card</param>
+            <returns>PluginData</returns>
+        </member>
+        <member name="M:ExtensibleSaveFormat.ExtendedSave.SetExtendedDataById(AIChara.ChaFile,System.String,ExtensibleSaveFormat.PluginData)">
+            <summary>
+            Set PluginData for a ChaFile for the specified extended save data ID
+            </summary>
+            <param name="file">ChaFile for which to set extended data</param>
+            <param name="id">ID of the data to be saved to the card</param>
+            <param name="extendedFormatData">PluginData to save to the card</param>
+        </member>
+        <member name="M:ExtensibleSaveFormat.ExtendedSave.GetAllExtendedData(AIChara.ChaFileCoordinate)">
+            <summary>
+            Get a dictionary of ID, PluginData containing all extended data for a ChaFileCoordinate
+            </summary>
+            <param name="file">ChaFileCoordinate for which to get extended data</param>
+            <returns>Dictionary of ID, PluginData</returns>
+        </member>
+        <member name="M:ExtensibleSaveFormat.ExtendedSave.GetExtendedDataById(AIChara.ChaFileCoordinate,System.String)">
+            <summary>
+            Get PluginData for a ChaFileCoordinate for the specified extended save data ID
+            </summary>
+            <param name="file">ChaFileCoordinate for which to get extended data</param>
+            <param name="id">ID of the data saved to the card</param>
+            <returns>PluginData</returns>
+        </member>
+        <member name="M:ExtensibleSaveFormat.ExtendedSave.SetExtendedDataById(AIChara.ChaFileCoordinate,System.String,ExtensibleSaveFormat.PluginData)">
+            <summary>
+            Set PluginData for a ChaFileCoordinate for the specified extended save data ID
+            </summary>
+            <param name="file">ChaFileCoordinate for which to set extended data</param>
+            <param name="id">ID of the data to be saved to the card</param>
+            <param name="extendedFormatData">PluginData to save to the card</param>
+        </member>
+        <member name="T:ExtensibleSaveFormat.ExtendedSave.CardEventHandler">
+            <summary> CardEventHandler </summary>
+        </member>
+        <member name="E:ExtensibleSaveFormat.ExtendedSave.CardBeingSaved">
+            <summary> Register methods to trigger on card being saved </summary>
+        </member>
+        <member name="E:ExtensibleSaveFormat.ExtendedSave.CardBeingLoaded">
+            <summary> Register methods to trigger on card being loaded </summary>
+        </member>
+        <member name="T:ExtensibleSaveFormat.ExtendedSave.CoordinateEventHandler">
+            <summary> CoordinateEventHandler </summary>
+        </member>
+        <member name="E:ExtensibleSaveFormat.ExtendedSave.CoordinateBeingSaved">
+            <summary> Register methods to trigger on coordinate being saved </summary>
+        </member>
+        <member name="E:ExtensibleSaveFormat.ExtendedSave.CoordinateBeingLoaded">
+            <summary> Register methods to trigger on coordinate being loaded </summary>
+        </member>
+        <member name="M:ExtensibleSaveFormat.ExtendedSave.GetSceneExtendedDataById(System.String)">
+            <summary>
+            Get PluginData for a scene for the specified extended save data ID
+            </summary>
+            <param name="id">ID of the data saved to the card</param>
+            <returns>PluginData</returns>
+        </member>
+        <member name="M:ExtensibleSaveFormat.ExtendedSave.SetSceneExtendedDataById(System.String,ExtensibleSaveFormat.PluginData)">
+            <summary>
+            Set PluginData for a scene for the specified extended save data ID
+            </summary>
+            <param name="id">ID of the data to be saved to the card</param>
+            <param name="extendedFormatData">PluginData to save to the card</param>
+        </member>
+        <member name="M:ExtensibleSaveFormat.ExtendedSave.GetPoseExtendedDataById(System.String)">
+            <summary>
+            Get PluginData for a pose for the specified extended save data ID
+            </summary>
+            <param name="id">ID of the data saved to the card</param>
+            <returns>PluginData</returns>
+        </member>
+        <member name="M:ExtensibleSaveFormat.ExtendedSave.SetPoseExtendedDataById(System.String,ExtensibleSaveFormat.PluginData)">
+            <summary>
+            Set PluginData for a pose for the specified extended save data ID
+            </summary>
+            <param name="id">ID of the data to be saved to the card</param>
+            <param name="extendedFormatData">PluginData to save to the card</param>
+        </member>
+        <member name="F:ExtensibleSaveFormat.ExtendedSave.GameName">
+            <summary>
+            The current game, written to some ext save data to determine which game it was created in
+            </summary>
+        </member>
+        <member name="T:ExtensibleSaveFormat.ExtendedSave.SceneEventHandler">
+            <summary> SceneEventHandler </summary>
+        </member>
+        <member name="E:ExtensibleSaveFormat.ExtendedSave.SceneBeingSaved">
+            <summary> Register methods to trigger on scene being saved </summary>
+        </member>
+        <member name="E:ExtensibleSaveFormat.ExtendedSave.SceneBeingLoaded">
+            <summary> Register methods to trigger on scene being loaded </summary>
+        </member>
+        <member name="E:ExtensibleSaveFormat.ExtendedSave.SceneBeingImported">
+            <summary> Register methods to trigger on scene being imported </summary>
+        </member>
+        <member name="T:ExtensibleSaveFormat.ExtendedSave.PoseEventHandler">
+            <summary> PoseEventHandler </summary>
+        </member>
+        <member name="E:ExtensibleSaveFormat.ExtendedSave.PoseBeingSaved">
+            <summary> Register methods to trigger on pose being saved </summary>
+        </member>
+        <member name="E:ExtensibleSaveFormat.ExtendedSave.PoseBeingLoaded">
+            <summary> Register methods to trigger on pose being loaded </summary>
+        </member>
+        <member name="T:ExtensibleSaveFormat.PluginData">
+            <summary>
+            An object containing data saved to and loaded from cards.
+            </summary>
+        </member>
+        <member name="F:ExtensibleSaveFormat.PluginData.version">
+            <summary>
+            Version of the plugin data saved to the card. Get or set this if ever your plugin data format changes and use it to differentiate.
+            </summary>
+        </member>
+        <member name="F:ExtensibleSaveFormat.PluginData.data">
+            <summary>
+            Dictionary of objects saved to or loaded loaded from the card.
+            </summary>
+        </member>
+        <member name="F:BepisPlugins.Metadata.PluginsVersion">
+            <summary>
+            Version number used be all plugins. Must be convertible to <see cref="T:System.Version"/>
+            Use ReleaseVersion.HotfixVersion format
+            </summary>
+        </member>
+        <member name="M:Extensions.Replace(System.String,System.String,System.String,System.StringComparison)">
+            <summary>
+            Returns a new string in which all occurrences of a specified string in the current instance are replaced with another 
+            specified string according the type of search to use for the specified string.
+            Stolen from https://stackoverflow.com/a/45756981
+            </summary>
+            <param name="str">The string performing the replace method.</param>
+            <param name="oldValue">The string to be replaced.</param>
+            <param name="newValue">The string replace all occurrences of <paramref name="oldValue"/>. 
+            If value is equal to <c>null</c>, than all occurrences of <paramref name="oldValue"/> will be removed from the <paramref name="str"/>.</param>
+            <param name="comparisonType">One of the enumeration values that specifies the rules for the search.</param>
+            <returns>A string that is equivalent to the current string except that all instances of <paramref name="oldValue"/> are replaced with <paramref name="newValue"/>. 
+            If <paramref name="oldValue"/> is not found in the current instance, the method returns the current instance unchanged.</returns>
+        </member>
+        <member name="M:Extensions.FindPosition(System.IO.Stream,System.Byte[])">
+            <summary>
+            Find first position of the byte sequence in the stream starting at current position.
+            Returns position of first byte of the sequence.
+            https://stackoverflow.com/questions/1550560/encoding-an-integer-in-7-bit-format-of-c-sharp-binaryreader-readstring
+            </summary>
+        </member>
+        <member name="T:Shared.IMGUIUtils">
+            <summary>
+            Utility methods for working with IMGUI / OnGui.
+            </summary>
+        </member>
+        <member name="M:Shared.IMGUIUtils.DrawSolidBox(UnityEngine.Rect)">
+            <summary>
+            Draw a gray non-transparent GUI.Box at the specified rect. Use before a GUI.Window or other controls to get rid of 
+            the default transparency and make the GUI easier to read.
+            <example>
+            IMGUIUtils.DrawSolidBox(screenRect);
+            GUILayout.Window(362, screenRect, TreeWindow, "Select character folder");
+            </example>
+            </summary>
+        </member>
+        <member name="M:Shared.IMGUIUtils.EatInputInRect(UnityEngine.Rect)">
+            <summary>
+            Block input from going through to the game/canvases if the mouse cursor is within the specified Rect.
+            Use after a GUI.Window call or the window will not be able to get the inputs either.
+            <example>
+            GUILayout.Window(362, screenRect, TreeWindow, "Select character folder");
+            Utils.EatInputInRect(screenRect);
+            </example>
+            </summary>
+            <param name="eatRect"></param>
+        </member>
+        <member name="M:Shared.IMGUIUtils.DrawLabelWithOutline(UnityEngine.Rect,System.String,UnityEngine.GUIStyle,UnityEngine.Color,UnityEngine.Color,System.Int32)">
+            <summary>
+            Draw a label with an outline
+            </summary>
+            <param name="rect">Size of the control</param>
+            <param name="text">Text of the label</param>
+            <param name="style">Style to be applied to the label</param>
+            <param name="txtColor">Color of the text</param>
+            <param name="outlineColor">Color of the outline</param>
+            <param name="outlineThickness">Thickness of the outline in pixels</param>
+        </member>
+        <member name="M:Shared.IMGUIUtils.DrawLabelWithShadow(UnityEngine.Rect,UnityEngine.GUIContent,UnityEngine.GUIStyle,UnityEngine.Color,UnityEngine.Color,UnityEngine.Vector2)">
+            <summary>
+            Draw a label with a shadow
+            </summary>        
+            <param name="rect">Size of the control</param>
+            <param name="content">Contents of the label</param>
+            <param name="style">Style to be applied to the label</param>
+            <param name="txtColor">Color of the outline</param>
+            <param name="shadowColor">Color of the text</param>
+            <param name="shadowOffset">Offset of the shadow in pixels</param>
+        </member>
+    </members>
+</doc>
