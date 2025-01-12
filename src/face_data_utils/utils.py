@@ -434,7 +434,7 @@ class FaceData:
     def set_image(self, image:np.ndarray):
         # ( h, w, 3) RGB
         assert image.ndim == 3
-        print(image.shape)
+        # print(image.shape)
         image=cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
         _,image=cv2.imencode(".png",image)
         image = image.tobytes()

@@ -1,6 +1,6 @@
 {
-    "Version":"3.0.0",
-    "UpdateInfo":"使用了新的深度学习方法和模型，提升了人脸相似度",
+    "Version":"3.1.0",
+    "UpdateInfo":"进一步提升了人脸相似度",
     "Download":{
         "Github":"https://github.com/ChasonJiang/Facial-Data-Extractor/releases/latest",
         "BaiduNetDisk":"https://pan.baidu.com/s/1WSTzlX6bLuRahuxxDQih3A?pwd=fhuz"

@@ -11,8 +11,8 @@ class VersionChecker(QThread):
         }
 
         urls = [
+            "https://cdn.jsdelivr.net/gh/ChasonJiang/Facial-Data-Extractor@main/VersionInfo.json",
             "http://43.136.47.104:14409/facial_data_extrator/update",
-            "https://cdn.jsdelivr.net/gh/ChasonJiang/Facial-Data-Extractor@main/VersionInfo.json"
         ]
 
         for url in urls:
