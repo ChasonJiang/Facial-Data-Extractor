@@ -1,8 +1,8 @@
 # Introduction
 Facial Data Extractor [中文介绍](./readme_zh.md)
 
-This software aims to use AI to extract facial data from human portraits to assist with face customization in Illusion series games.
-Currently, it only supports AI Shoujo and Honey Select 2.
+This software aims to utilize deep learning methods to infer in-game facial parameters from portrait images, assisting with face customization in Illusion series games. Currently, it only supports AI Shoujo and Honey Select 2.
+
 If you would like to know the technical approach used, [please see here](https://github.com/ChasonJiang/Face2Parameter).
 
 # Usage Guide:
