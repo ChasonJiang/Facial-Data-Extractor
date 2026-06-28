@@ -6,9 +6,9 @@ This software aims to utilize deep learning methods to infer in-game facial para
 If you would like to know the technical approach used, [please see here](https://github.com/ChasonJiang/Face2Parameter).
 
 # Usage Guide:
-- Step 1. Click the "Open Image" button to select images. Multiple selections are supported.
-- Step 2. [Optional] Click the "Select Character Card Template" button to choose a template; if not selected, the default character card template will be used. The extracted facial data will be directly applied to the character card template.
-- Step 3. Click the "Extract" button and wait for the facial data to be extracted.
+- Step 1. Click the "打开图片" button to select images. Multiple selections are supported.
+- Step 2. [Optional] Click the "选择人物卡模板" button to choose a template; if not selected, the default character card template will be used. The extracted facial data will be directly applied to the character card template.
+- Step 3. Click the "提取" button and wait for the facial data to be extracted.
 - Step 4. Open the generated `*_character.png` character card in the game.
 
 # Notes:
